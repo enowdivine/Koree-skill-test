@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "auth",
-    # "contacts",
+    #
+    "drf_yasg",
+    "rest_framework",
+    "authentication",
+    "contacts",
 ]
 
 MIDDLEWARE = [
@@ -123,3 +126,13 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# adding my own custom data
+# Adding custom user model classes
+AUTH_USER_MODEL = "authentication.User"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "authentication.jwt.JWTAuthentication",
+    ],
+}

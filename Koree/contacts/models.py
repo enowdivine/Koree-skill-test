@@ -3,7 +3,7 @@ from django.db import models
 # from auth.models import User
 
 
-class Contact:
+class Contact(models.Model):
     username = models.CharField(max_length=255)
     gender = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
