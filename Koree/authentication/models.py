@@ -1,6 +1,4 @@
 from django.db import models
-
-# Create your models here.
 from helpers.models import TrackingModel
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth.models import PermissionsMixin, UserManager, AbstractBaseUser
@@ -16,7 +14,7 @@ from django.conf import settings
 class MyUserManager(UserManager):
     def _create_user(self, username, password, **extra_fields):
         """
-        Create and save a user with the given username, email, and password.
+        Create and save a user with the given username, and password.
         """
         if not username:
             raise ValueError("The given username must be set")
@@ -33,6 +31,19 @@ class MyUserManager(UserManager):
         return user
 
     def create_user(self, username, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
+        return self._create_user(username, password, **extra_fields)
+
+    def create_superuser(self, username, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
+
         return self._create_user(username, password, **extra_fields)
 
 
@@ -59,14 +70,16 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
             "unique": _("A user with that username already exists."),
         },
     )
-    # first_name = models.CharField(_("first name"), max_length=150, blank=True)
-    # last_name = models.CharField(_("last name"), max_length=150, blank=True)
-    # email = models.EmailField(_("email address"), blank=False, unique=True)
+    is_staff = models.BooleanField(
+        _("staff status"),
+        default=False,
+        help_text=_("Designates whether the user can log into this admin site."),
+    )
     objects = MyUserManager()
 
     # EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
-    # REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = []
 
     # adding token function
     @property

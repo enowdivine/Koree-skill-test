@@ -3,6 +3,7 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from contacts.serializers import ContactSerializer
+
 from rest_framework.permissions import IsAuthenticated
 from contacts.models import Contact
 from django_filters.rest_framework import DjangoFilterBackend
