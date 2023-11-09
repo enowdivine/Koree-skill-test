@@ -62,45 +62,40 @@ export default {
         // Add new contact to database function
         async onSubmit(event) {
             event.preventDefault();
-            if (this.form.username && this.form.gender) {
-                try {
-                    const data = {
-                        username: this.form.username,
-                        gender: this.form.gender,
-                        address: this.form.address,
-                        phoneNumber: this.form.phone_number,
-                        email: this.form.email,
-                    };
-                    const token = localStorage.getItem('access_token');
-                    if (token !== null) {
-                        const response = await this.$axios.post('/contacts', data, {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                                Accept: 'multipart/form-data',
-                                'Content-Type': 'application/json',
-                            },
-                        });
-                        if ((response.status = 200)) {
-                            this.$toast.success('COntact added', { duration: 5000 });
-                            (this.form.username = ''),
-                                (this.form.gender = ''),
-                                (this.form.address = ''),
-                                (this.form.phone_number = ''),
-                                (this.form.email = '');
-                        } else {
-                            this.$toast.error('Not Authorized', { duration: 5000 });
-                            this.$router.push({ path: '/' });
-                        }
+            try {
+                const data = {
+                    username: this.form.username,
+                    gender: this.form.gender,
+                    address: this.form.address,
+                    phoneNumber: this.form.phone_number,
+                    email: this.form.email,
+                };
+                const token = localStorage.getItem('access_token');
+                if (token !== null) {
+                    const response = await this.$axios.post('api/contacts/', data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    if ((response.status = 200)) {
+                        this.$toast.success('Contact added', { duration: 5000 });
+                        (this.form.username = ''),
+                            (this.form.gender = ''),
+                            (this.form.address = ''),
+                            (this.form.phone_number = ''),
+                            (this.form.email = '');
                     } else {
                         this.$toast.error('Not Authorized', { duration: 5000 });
                         this.$router.push({ path: '/' });
                     }
-                } catch (error) {
-                    this.$toast.error('Check all fields', { duration: 5000 });
-                    console.error(error);
+                } else {
+                    this.$toast.error('Not Authorized', { duration: 5000 });
+                    this.$router.push({ path: '/' });
                 }
-            } else {
+            } catch (error) {
                 this.$toast.error('Check all fields', { duration: 5000 });
+                console.error(error);
             }
         },
     },

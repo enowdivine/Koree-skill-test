@@ -43,22 +43,16 @@ export default {
         async onSubmit(event) {
             event.preventDefault();
             if (this.form.username && this.form.password) {
-                const data = new FormData();
-                data.append('username', this.form.username);
-                data.append('password', this.form.password);
-                // const data = {
-                //     username: this.form.username,
-                //     password: this.form.password,
-                // };
+                const data = {
+                    username: this.form.username,
+                    password: this.form.password,
+                };
                 try {
-                    console.log(typeof data);
-                    const response = await this.$axios.post('/auth/register', data, {
+                    const response = await this.$axios.post('api/auth/login', data, {
                         headers: {
-                            Accept: 'multipart/form-data',
                             'Content-Type': 'application/json',
                         },
                     });
-                    console.log('my response', response);
                     if ((response.status = 200)) {
                         this.$toast.success('Successfully authenticated', { duration: 5000 });
                         this.$store.commit('LOGIN', response.data);

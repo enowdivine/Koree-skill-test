@@ -39,7 +39,7 @@
         <div>
             <b-modal id="modal-2" title="Edit Contact" @ok="updateContact">
                 <b-form @submit="updateContact">
-                    <b-form-group id="input-group-1" label="Contact Name:" label-for="input-1">
+                    <b-form-group id="input-group-1" label="Name:" label-for="input-1">
                         <b-form-input
                             id="input-1"
                             v-model="form.username"
@@ -48,20 +48,38 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group id="input-group-3" label="Author Name:" label-for="input-3">
-                        <b-form-select v-model="form.author">
-                            <option v-for="item in authors" :key="item.id" v-bind:value="{ item }">
-                                {{ item.author_name }}
-                            </option>
-                        </b-form-select>
+                    <b-form-group id="input-group-1" label="Gender:" label-for="input-1">
+                        <b-form-input
+                            id="input-1"
+                            v-model="form.gender"
+                            placeholder="Enter gender"
+                            required
+                        ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group id="input-group-3" label="Number of pages:" label-for="input-3">
+                    <b-form-group id="input-group-1" label="Address:" label-for="input-1">
+                        <b-form-input
+                            id="input-1"
+                            v-model="form.address"
+                            placeholder="Enter address"
+                            required
+                        ></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group id="input-group-4" label="Phone number:" label-for="input-4">
                         <b-form-input
                             type="number"
-                            id="input-3"
-                            v-model="form.number_of_pages"
-                            placeholder="Enter number of pages"
+                            id="input-4"
+                            v-model="form.phone_number"
+                            placeholder="Enter phone number"
+                            required
+                        ></b-form-input>
+                    </b-form-group>
+                    <b-form-group id="input-group-4" label="Email:" label-for="input-4">
+                        <b-form-input
+                            id="input-4"
+                            v-model="form.email"
+                            placeholder="Enter email"
                             required
                         ></b-form-input>
                     </b-form-group>
@@ -73,6 +91,7 @@
 
 <script>
 import AddContact from './AddContact.vue';
+import axios from 'axios';
 
 export default {
     components: {
@@ -84,7 +103,7 @@ export default {
             perPage: 6,
             currentPage: 1,
             rows: 1,
-            fields: ['id', 'username', 'gender', 'address', 'phone_number', 'email', 'actions'],
+            fields: ['id', 'username', 'gender', 'address', 'phoneNumber', 'email', 'actions'],
             contacts: [],
             filter: null,
             output: null,
@@ -114,8 +133,11 @@ export default {
             try {
                 const token = localStorage.getItem('access_token');
                 if (token !== null) {
-                    const response = await this.$axios.get('/contacts', {
-                        headers: { Authorization: `Bearer ${token}` },
+                    const response = await this.$axios.get('api/contacts', {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/json',
+                        },
                     });
                     this.contacts = response.data;
                     this.rows = response.data.length;
@@ -152,10 +174,9 @@ export default {
                 if (data.id) {
                     const token = localStorage.getItem('access_token');
                     if (token !== null) {
-                        const response = await this.$axios.put(`/contacts/${data.id}`, data, {
+                        const response = await this.$axios.put(`api/contacts/${data.id}`, data, {
                             headers: {
                                 Authorization: `Bearer ${token}`,
-                                Accept: 'multipart/form-data',
                                 'Content-Type': 'application/json',
                             },
                         });
@@ -193,10 +214,9 @@ export default {
                 try {
                     const token = localStorage.getItem('access_token');
                     if (token !== null) {
-                        const response = await this.$axios.delete(`/contacts/${data.id}`, {
+                        const response = await this.$axios.delete(`api/contacts/${data.id}`, {
                             headers: {
                                 Authorization: `Bearer ${token}`,
-                                Accept: 'multipart/form-data',
                                 'Content-Type': 'application/json',
                             },
                             data,
