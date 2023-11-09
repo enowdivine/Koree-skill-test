@@ -1,0 +1,16 @@
+[
+  {
+    "name": "contacts",
+    "path": "/contacts",
+    "component": "/home/divine/Documents/work/Koree/dashboard/pages/contacts.vue",
+    "chunkName": "pages/contacts",
+    "_name": "_d91c6e60"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/home/divine/Documents/work/Koree/dashboard/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_151dcd25"
+  }
+]

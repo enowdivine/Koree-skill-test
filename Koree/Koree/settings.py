@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "authentication",
     "contacts",
+    #
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -52,6 +54,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # cors
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "Koree.urls"
@@ -136,3 +140,8 @@ REST_FRAMEWORK = {
         "authentication.jwt.JWTAuthentication",
     ],
 }
+
+# CORS import
+ALLOWED_HOSTS = ["*"]
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True

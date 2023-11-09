@@ -1,0 +1,11 @@
+{
+  "ContactsAddContact": {
+    "description": "Auto imported from components/contacts/AddContact.vue"
+  },
+  "Contacts": {
+    "description": "Auto imported from components/contacts/Contacts.vue"
+  },
+  "FormsLogin": {
+    "description": "Auto imported from components/forms/Login.vue"
+  }
+}
