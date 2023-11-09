@@ -28,7 +28,7 @@ class ContactsAPIView(ListCreateAPIView):
         return serializer.save(username=self.request.user)
 
     def get_queryset(self):
-        return Contact.objects.filter(username=self.request.user)
+        return Contact.objects.all()
 
 
 # function to handle retrieve, update and delete request at once
